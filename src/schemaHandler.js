@@ -164,6 +164,13 @@ class SchemaHandler {
     this.logger.verbose(`converting model: ${name}`);
     const convertedSchemas = SchemaConvertor.convert(dereferencedSchema, name);
 
+    // Custom code
+    for (const [key, value] of Object.entries(model)) {
+      if (key.startsWith("x-") && convertedSchemas.schemas?.[name]) {
+        convertedSchemas.schemas[name][key] = value;
+      }
+    }
+
     this.logger.verbose(
       `converted schemas: ${JSON.stringify(convertedSchemas)}`
     );
